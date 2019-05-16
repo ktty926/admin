@@ -10,6 +10,25 @@
 select * from t_user where phoneMember = #{value}
 </select>
 
+<!--查询注册类型-->
+    <select id="findRegType" resultType="com.jk.bean.RegType">
+    select * from t_regtype
+    </select>
+
+    <!--新增发货方-->
+<insert id="saveOneUser" parameterType="com.jk.bean.User">
+insert into t_user(id,phoneNumber,phoneMember,password,regTypeId,referrer,sex,usertype,money,createTime)
+values(#{id},#{phoneNumber},#{phoneMember},#{password},#{regTypeId},#{referrer},#{sex},#{usertype},#{money},#{createTime})
+</insert>
+
+    <!--新增公司方-->
+    <insert id="saveCompany" parameterType="com.jk.bean.User">
+    insert into t_user(id,phoneNumber,phoneMember,password,referrer,usertype,money,createTime,companyName)
+    values(#{id},#{phoneNumber},#{phoneMember},#{password},#{referrer},#{usertype},#{money},#{createTime},#{companyName})
+    </insert>
+
+
+
 
 
 </mapper>
