@@ -2,4 +2,60 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jk.mapper.OrderMapper">
+
+    <select id="findOrderByCount" resultType="java.lang.Long" parameterType="map">
+        select count(1) from accept_order
+        <include refid="queryOrder"></include>
+    </select>
+
+    <select id="findOrder" parameterType="hashmap" resultType="com.jk.bean.Order">
+
+        select * from accept_order
+        <include refid="queryOrder"></include>
+        limit #{page},#{limit}
+    </select>
+
+    <sql id="queryOrder">
+
+        <where>
+            and user_id = #{order.userId}
+            <!-- 订单号查询 -->
+            <if test="order.status == 1 and order.orderNumber != null and order.orderNumber != ''">
+                and order_number like '%${order.orderNumber}%'
+            </if>
+
+            <!-- 发货人查询 -->
+            <if test="order.status == 2 and order.orderNumber != null and order.orderNumber != ''">
+                and sender like '%${order.orderNumber}%'
+            </if>
+
+            <!-- 发货人手机号 -->
+            <if test="order.status == 3 and order.orderNumber != null and order.orderNumber != ''">
+                and sender_phone_number like '%${order.orderNumber}%'
+            </if>
+
+            <!-- 是否上门提货. 条查 -->
+            <if test="order.homeDelivery != null and order.homeDelivery != ''">
+                and home_delivery = #{order.homeDelivery}
+            </if>
+
+            <!-- 支付状态条查 -->
+            <if test="order.paymentMethod != null and order.paymentMethod != ''">
+                and payment_method = #{order.paymentMethod}
+            </if>
+
+            <!-- 下单时间区间条查 start -->
+            <if test="order.startCreateTime != null and order.startCreateTime != ''">
+                and create_time &gt;= #{order.startCreateTime}
+            </if>
+
+            <!-- 下单时间区间条查 end -->
+            <if test="order.endCreateTime != null and order.endCreateTime != ''">
+                and create_time &lt;= #{order.endCreateTime}
+            </if>
+
+        </where>
+
+    </sql>
+
 </mapper>
