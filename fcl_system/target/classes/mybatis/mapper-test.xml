@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jk.mapper.fxlmapper.workMapper">
+
+    <select id="findCount" resultType="java.lang.Integer">
+        SELECT count(1) FROM t_company where 1=1
+        <if test="companyName!=null and companyName!='' ">
+          and (companyName like concat(concat('%',#{companyName}),'%') or adstrativeRegion like concat(concat('%',#{companyName}),'%'))
+        </if>
+        <if test="cooperation!=null and cooperation!=3">
+          and cooperation = #{cooperation}
+        </if>
+    </select>
+
+    <select id="findCompany" resultType="com.jk.model.fxlModel.Company">
+        SELECT * FROM t_company where 1=1
+        <if test="companyName!=null and companyName!='' ">
+            and (companyName like concat(concat('%',#{companyName}),'%') or adstrativeRegion like concat(concat('%',#{companyName}),'%'))
+        </if>
+        <if test="cooperation!=null and cooperation!=3">
+            and cooperation = #{cooperation}
+        </if>
+          ORDER BY vip desc
+        <if test="start!=null and limit!=null">
+            LIMIT #{start},#{limit}
+        </if>
+    </select>
+    <!--<select id="count" resultType="java.lang.Integer">-->
+        <!--select count(1) from t_tenant where 1=1-->
+        <!--<if test="tenName!=null and tenName!='' ">-->
+            <!--and tenName = #{tenName} or tenSite like concat(concat('%',#{tenName}),'%')-->
+        <!--</if>-->
+    <!--</select>-->
+
+    <!--<select id="findTen" resultType="com.jk.model.Tenant">-->
+        <!--select * from  t_tenant where 1=1-->
+        <!--<if test="tenName!=null and tenName!='' ">-->
+            <!--and tenName = #{tenName} or tenSite like concat(concat('%',#{tenName}),'%')-->
+        <!--</if>-->
+        <!--<if test="start!=null and rows!=null">-->
+            <!--LIMIT #{start},#{rows}-->
+        <!--</if>-->
+    <!--</select>-->
+</mapper>
