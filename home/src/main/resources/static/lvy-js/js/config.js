@@ -1,0 +1,1 @@
+if(window.location.href.indexOf("lvmae.com") != -1){document.domain = "lvmae.com";}var DTPath = "http://www.lvmae.com/";var SKPath = "http://www.lvmae.com/skin/default/";var MEPath = "http://www.lvmae.com/member/";var EXPath = "http://www.lvmae.com/extend/";var CKDomain = ".lvmae.com";var CKPath = "/";var CKPrex = "D55_";
