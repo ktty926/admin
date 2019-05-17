@@ -17,4 +17,6 @@ public interface UserMapper {
     void saveOneUser(User user);
 
     void saveCompany(User user);
+
+    User getUserByPasPhone(User user);
 }

@@ -27,8 +27,10 @@ values(#{id},#{phoneNumber},#{phoneMember},#{password},#{regTypeId},#{referrer},
     values(#{id},#{phoneNumber},#{phoneMember},#{password},#{referrer},#{usertype},#{money},#{createTime},#{companyName})
     </insert>
 
-
-
+<!--根据账号 密码查用户-->
+<select id="getUserByPasPhone" parameterType="com.jk.bean.User" resultType="com.jk.bean.User">
+select * from t_user where phoneMember=#{phoneNumber}  and password=#{password}
+</select>
 
 
 </mapper>

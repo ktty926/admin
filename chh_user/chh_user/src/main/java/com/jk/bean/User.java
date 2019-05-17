@@ -40,5 +40,7 @@ public class User {
 
     private Double money;//余额
 
+    private Integer remPwd; //  1   为记住密码
+
 
 }
