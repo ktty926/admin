@@ -57,4 +57,6 @@ public class Order {
 
     private Date endCreateTime; //下单时间区间查询  结束时间
 
+    private String status;  //根据状态查询
+
 }
