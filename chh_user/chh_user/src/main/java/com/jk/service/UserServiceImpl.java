@@ -11,6 +11,7 @@ import com.jk.utils.HttpClientUtil;
 import com.jk.utils.Md5Util;
 
 import org.apache.commons.lang.StringUtils;
+import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -38,6 +39,9 @@ public class UserServiceImpl implements UserService {
     private JedisPool jedisPool;
     @Autowired
     private MongoTemplate  mongoTemplate;
+
+    @Autowired
+    private AmqpTemplate rabbitTemplate;
     /**
      * @Author chh
      * @Description //TODO 判断手机是否被注册
@@ -124,6 +128,7 @@ public class UserServiceImpl implements UserService {
             return hash;
         }
         Integer randomNumber= (int)(Math.random()*899999+100000);
+        System.out.println(randomNumber);
       /*  HashMap<String, Object> params = new HashMap<>();
 
         params.put("accountSid",ConstantConf.ACCOUNTSID);
@@ -169,7 +174,7 @@ public class UserServiceImpl implements UserService {
  * @return
  **/
 @Override
-public HashMap<String, Object> saveUser(User user,String imgcode,String phonecode) {
+public HashMap<String, Object> saveUser(User user,String phonecode) {
     Jedis redis = jedisPool.getResource();
     HashMap<String, Object> hashMap= new HashMap<>();
     //先判断 该手机是否注册
@@ -217,6 +222,8 @@ public HashMap<String, Object> saveUser(User user,String imgcode,String phonecod
         hashMap.put("msg", "公司注册成功");
         hashMap.put("type",2);
     }
+    hashMap.put("phoneNumber",user.getPhoneNumber());
+    rabbitTemplate.convertAndSend("phone", hashMap);
     return hashMap;
 }
 /**
@@ -227,7 +234,7 @@ public HashMap<String, Object> saveUser(User user,String imgcode,String phonecod
  * @return
  **/
     @Override
-    public HashMap<String, Object> login(User user) {
+    public User login(User user) {
         Jedis redis = jedisPool.getResource();
         HashMap<String, Object> hashMap= new HashMap<>();
         String uuid = UUID.randomUUID().toString();
@@ -236,22 +243,25 @@ public HashMap<String, Object> saveUser(User user,String imgcode,String phonecod
         String md516 = Md5Util.getMd516(password);
         user.setPassword(md516);
         User userFromDb = userMapper.getUserByPasPhone(user);
-
+        if(userFromDb !=null){
+            String str = JSON.toJSONString(userFromDb);
+            redis.set(ConstantConf.COOKIEUUID+uuid,str);
+            redis.expire(ConstantConf.COOKIEUUID+uuid,604800);
+        }
+        return userFromDb;
+/*
         if (userFromDb != null) {
             //如果密码正确判断是否选择了记住密码
             if (user.getRemPwd() != null) {
                 //如果选择了记住密码  存入cookie中
-                Cookie cookie = new Cookie(ConstantConf.cookieNamePaw, userFromDb.getPhoneNumber() + ConstantConf.splitC + userFromDb.getPassword());
-                cookie.setMaxAge(604800);//过期时间为一周
-              /*  response.addCookie(cookie);*/
-                redis.set(ConstantConf.COOKIEUUID+uuid,cookie.toString());
+                redis.set(ConstantConf.COOKIEUUID+uuid,userFromDb.getPhoneNumber());
                 redis.expire(ConstantConf.COOKIEUUID+uuid,604800);
             } else {
                 //如果没有勾选记住密码,清除cookie
-                Cookie cookie = new Cookie(ConstantConf.cookieNamePaw, "");
+               *//* Cookie cookie = new Cookie(ConstantConf.cookieNamePaw, "");
                 cookie.setMaxAge(0);//
-                /*response.addCookie(cookie);*/
-                redis.set(ConstantConf.COOKIEUUID+uuid,cookie.toString());
+                response.addCookie(cookie);*//*
+                redis.set(ConstantConf.COOKIEUUID+uuid,userFromDb.getPhoneNumber());
                 redis.expire(ConstantConf.COOKIEUUID+uuid,0);
             }
         } else {
@@ -267,7 +277,7 @@ public HashMap<String, Object> saveUser(User user,String imgcode,String phonecod
         hashMap.put("type", userFromDb.getUsertype());
         hashMap.put("code", 0);
         hashMap.put("msg", "登录成功");
-        return hashMap;
+        return hashMap;*/
 
     }
 /**

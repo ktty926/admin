@@ -3,8 +3,11 @@ package com.jk.controller;
 import com.jk.bean.RegType;
 import com.jk.bean.User;
 import com.jk.service.UserService;
+import org.springframework.amqp.AmqpException;
+import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -17,6 +20,9 @@ import java.util.List;
 public class UserController {
     @Autowired
     private UserService userService;
+
+
+
 /**
  * @Author chh
  * @Description //TODO 判断手机是否被注册
@@ -51,7 +57,8 @@ public List<RegType> findRegType(){
     @RequestMapping("duanxin")
     @ResponseBody
     public HashMap<String, Object> phoneTest(String phoneNumber){
-        return userService.phoneTest(phoneNumber);
+        HashMap<String, Object> hashMap = userService.phoneTest(phoneNumber);
+        return hashMap;
 
     }
 
@@ -60,15 +67,15 @@ public List<RegType> findRegType(){
 
 /**
  * @Author chh
- * @Description //TODO 注册
+ * @Description //TODO 注册    (包含一个消息队列 phone)
  * @Date 11:40 2019/5/16
- * @Param               user   imgcode    phonecode
+ * @Param               user   imgcode  imgcodes   phonecode
  * @return             type     code   msg
  **/
 @RequestMapping("reg")
 @ResponseBody
-public  HashMap<String,Object> saveUser(User user, String imgcode, String phonecode){
-    return userService.saveUser(user,imgcode,phonecode);
+public  HashMap<String,Object> saveUser(@RequestBody User user, String phonecode){
+    return userService.saveUser(user,phonecode);
 }
 
 
@@ -81,7 +88,7 @@ public  HashMap<String,Object> saveUser(User user, String imgcode, String phonec
  **/
     @RequestMapping("login")
     @ResponseBody
-    public HashMap<String,Object> login(User user){
+    public User login(@RequestBody User user){
       return userService.login(user);
     }
 
@@ -94,13 +101,13 @@ public  HashMap<String,Object> saveUser(User user, String imgcode, String phonec
  **/
 @RequestMapping("comLogin")
 @ResponseBody
-public HashMap<String,Object> comLogin(User user){
-    HashMap<String, Object> hashMap= new HashMap<>();
+public User comLogin(@RequestBody User user){
+/*    HashMap<String, Object> hashMap= new HashMap<>();
 if(user.getUsertype()==1){
     hashMap.put("code",1);
     hashMap.put("msg","您目前没有权限登录");
     return hashMap;
-}
+}*/
     return userService.login(user);
 }
 

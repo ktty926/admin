@@ -16,9 +16,9 @@ public interface UserService {
 
     List<RegType> findRegType();
 
-    HashMap<String, Object> saveUser(User user,String imgcode,String phonecode);
+    HashMap<String, Object> saveUser(User user,String phonecode);
 
-    HashMap<String, Object> login(User user);
+    User login(User user);
 
     HashMap<String, Object> findUserFromRedis(String uuid);
 }
