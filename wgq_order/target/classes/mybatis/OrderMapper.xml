@@ -19,6 +19,12 @@
 
         <where>
             and user_id = #{order.userId}
+
+            <!-- 根据订单状态查询 -->
+            <if test="order.orderStatus != null and order.orderStatus != ''">
+                and order_status = #{order.orderStatus}
+            </if>
+
             <!-- 订单号查询 -->
             <if test="order.status == 1 and order.orderNumber != null and order.orderNumber != ''">
                 and order_number like '%${order.orderNumber}%'
@@ -33,6 +39,27 @@
             <if test="order.status == 3 and order.orderNumber != null and order.orderNumber != ''">
                 and sender_phone_number like '%${order.orderNumber}%'
             </if>
+
+            <!-- 是否上门提货. 条查 -->
+            <if test="order.homeDelivery != null and order.homeDelivery != ''">
+                and manual_picking = #{order.homeDelivery}
+            </if>
+
+            <!-- 支付状态条查 -->
+            <if test="order.paymentMethod != null and order.paymentMethod != ''">
+                and payment_method = #{order.paymentMethod}
+            </if>
+
+            <!-- 下单时间区间条查 start -->
+            <if test="order.startCreateTime != null and order.startCreateTime != ''">
+                and create_time &gt;= #{order.startCreateTime}
+            </if>
+
+            <!-- 下单时间区间条查 end -->
+            <if test="order.endCreateTime != null and order.endCreateTime != ''">
+                and create_time &lt;= #{order.endCreateTime}
+            </if>
+
         </where>
 
     </sql>

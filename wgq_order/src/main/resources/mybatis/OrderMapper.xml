@@ -19,6 +19,12 @@
 
         <where>
             and user_id = #{order.userId}
+
+            <!-- 根据订单状态查询 -->
+            <if test="order.orderStatus != null and order.orderStatus != ''">
+                and order_status = #{order.orderStatus}
+            </if>
+
             <!-- 订单号查询 -->
             <if test="order.status == 1 and order.orderNumber != null and order.orderNumber != ''">
                 and order_number like '%${order.orderNumber}%'
@@ -36,7 +42,7 @@
 
             <!-- 是否上门提货. 条查 -->
             <if test="order.homeDelivery != null and order.homeDelivery != ''">
-                and home_delivery = #{order.homeDelivery}
+                and manual_picking = #{order.homeDelivery}
             </if>
 
             <!-- 支付状态条查 -->
