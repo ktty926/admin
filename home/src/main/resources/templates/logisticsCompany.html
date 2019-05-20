@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>绿蚂蚁</title>
+    <link rel="shortcut icon" type="image/x-icon" href="http://www.lvmae.com/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="/lvy-js/css/common.css">
+    <link rel="stylesheet" type="text/css" href="/lvy-js/css/zzsc.css">
+    <script src="lvy-js/jquery.min.js"></script>
+    <script src="/lvy-js/js/push.js"></script>
+    <script type="text/javascript" src="/lvy-js/js/jquery-3.2.1.min.js" charset="UTF-8"></script>
+    <script type="text/javascript" src="/lvy-js/js/hj.configCity.js" charset="UTF-8"></script>
+    <script type="text/javascript" src="/lvy-js/js/jquery.chooseCity-1.2.js" charset="UTF-8"></script>
+    <script type="text/javascript" src="/lvy-js/js/jquery.cookie.js" charset="UTF-8"></script>
+    <script type="text/javascript" src="/lvy-js/js/functions.js" charset="UTF-8"></script>
+    <script type="text/javascript" src="/lvy-js/js/jquery.plugins.js" charset="UTF-8"></script>
+    <script type="text/javascript" src="/lvy-js/js/kslide.js" charset="UTF-8"></script>
+    <script type="text/javascript" src="/lvy-js/js/config.js" charset="UTF-8"></script>
+    <script type="text/javascript" src="/lvy-js/js/zzsc.min.js" charset="UTF-8"></script>
+    <script type="text/javascript">
+        var _HotLineScrollTop = "";
+        var basePath = "http://www.lvmae.com/";
+        var resourcePath = "http://img.lvmae.com/JAVA";
+        var baseLebpPath = "http://kuaidi.lvmae.com";
+        var userLogoPath = "http://img.lvmae.com/image/UserHeadPortrait/";
+    </script>
+    <script type="text/javascript" src="http://www.lvmae.com/file/script/index/hj.common.js" charset="UTF-8"></script>
+    <link rel="canonical" href="http://www.lvmae.com"/></head>
+</head>
+<body>
+<script>
+    (function(){
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        }
+        else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+<div class="header">
+    <div class="top">
+        <div class="wrap">
+            <div class="top-left" id="userStatus">
+            </div>
+            <div class="top-right">
+                <ul class="item-list">
+                    <li class="item">当前城市：</li>
+                    <li class="item top-area dropdown">
+                        <div class="top-area-content dropdown-box">
+                            <span class="main-color" id="selectArea">北京</span>
+                        </div>
+                    </li>
+                    <li class="item"><span class="icon icons-position"></span></li>
+                    <li class="item tel-app dropdown" id="popup">
+                        <div class="tel-app-content dropdown-box" onmousemove="popupSandBox(1)" onmouseout="popupSandBox(0)">
+                            &nbsp;&nbsp;<span class="icons-photo"></span>
+                            &nbsp;<span>手机浏览</span>
+                            &nbsp;<span class="icons-arrow-down"></span>
+                            &nbsp;&nbsp;
+                        </div>
+                        <div class="menu">
+                            <div class="ewm-box">
+                                <p>扫描二维码<br>
+                                    手机访问</p>
+                                <p>
+                                    <img src="" id="sandBox" alt="" width="98" height="98">
+                                </p>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="header-content">
+        <div class="wrap">
+            <div class="logo icons-logo fl">
+                <a id="logHref"  href="" title="上绿蚂蚁发货，说走就走">上绿蚂蚁发货，说走就走</a>
+            </div>
+            <div class="icons-wuli fr" style="background-image:none;">
+                <a id="headAdvertisingHref" href="" target="_blank">
+                    <img id="headAdvertisingImg" src="" width="395" height="74" alt="">
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="nav">
+        <div class="wrap">
+            <ul id="title">
+            </ul>
+        </div>
+    </div>
+    <div class="user-center">
+        <div class="wrap">
+            <a href="" class="user-box" id="personalCenter"><em></em><span>个人中心</span></a>
+        </div>
+    </div>
+</div>
+<div class="substation-box">
+    <div class="substation" id="substation">
+        <div class="sub-title">分站</div>
+        <a class="sub-link-01" href="http://bj.lvmae.com/" target="_blank">北京</a>
+        <a class="sub-link-01" href="http://sh.lvmae.com/" target="_blank">上海</a>
+        <a class="sub-link-01" href="http://tj.lvmae.com/" target="_blank">天津</a>
+        <a class="sub-link-01" href="http://gd.lvmae.com/" target="_blank">广东</a>
+        <a class="sub-link-01" href="http://hb.lvmae.com/" target="_blank">河北</a>
+        <a class="sub-link-01" href="http://shanxi.lvmae.com/" target="_blank">山西</a>
+        <a class="sub-link-01" href="http://ln.lvmae.com/" target="_blank">辽宁</a>
+        <a class="sub-link-01" href="http://jl.lvmae.com/" target="_blank">吉林</a>
+        <a class="sub-link-01" href="http://js.lvmae.com/" target="_blank">江苏</a>
+        <a class="sub-link-01" href="http://zj.lvmae.com/" target="_blank">浙江</a>
+        <a class="sub-link-01" href="http://ah.lvmae.com/" target="_blank">安徽</a>
+        <a class="sub-link-01" href="http://fj.lvmae.com/" target="_blank">福建</a>
+        <a class="sub-link-01" href="http://jx.lvmae.com/" target="_blank">江西</a>
+        <a class="sub-link-01" href="http://sd.lvmae.com/" target="_blank">山东</a>
+        <a class="sub-link-01" href="http://henan.lvmae.com/" target="_blank">河南</a>
+        <a class="sub-link-01" href="http://hubei.lvmae.com/" target="_blank">湖北</a>
+        <a class="sub-link-01" href="http://hunan.lvmae.com/" target="_blank">湖南</a>
+        <a class="sub-link-01" href="http://gx.lvmae.com/" target="_blank">广西</a>
+        <a class="sub-link-01" href="http://hainan.lvmae.com/" target="_blank">海南</a>
+        <a class="sub-link-01" href="http://zq.lvmae.com/" target="_blank">重庆</a>
+        <a class="sub-link-01" href="http://sc.lvmae.com/" target="_blank">四川</a>
+        <a class="sub-link-01" href="http://gz.lvmae.com/" target="_blank">贵州</a>
+        <a class="sub-link-01" href="http://yn.lvmae.com/" target="_blank">云南</a>
+        <a class="sub-link-01" href="http://xc.lvmae.com/" target="_blank">西藏</a>
+        <a class="sub-link-01" href="http://sx.lvmae.com/" target="_blank">陕西</a>
+        <a class="sub-link-01" href="http://gs.lvmae.com/" target="_blank">甘肃</a>
+        <a class="sub-link-01" href="http://qh.lvmae.com/" target="_blank">青海</a>
+        <div class="sub-more">更多
+            <div class="sub-more-body">
+                <a class="sub-link-01" href="http://nx.lvmae.com/" target="_blank">宁夏</a>
+                <a class="sub-link-01" href="http://hlj.lvmae.com/" target="_blank">黑龙江</a>
+                <a class="sub-link-01" href="http://nmg.lvmae.com/" target="_blank">内蒙古</a>
+                <a class="sub-link-01" href="http://xj.lvmae.com/" target="_blank">新疆</a>
+                <a class="sub-link-01" href="http://hk.lvmae.com/" target="_blank">香港</a>
+                <a class="sub-link-01" href="http://tw.lvmae.com/" target="_blank">台湾</a>
+                <a class="sub-link-01" href="http://am.lvmae.com/" target="_blank">澳门</a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+<script type="text/javascript">
+    $(function () {
+        initPageHead();
+        initShopFor();
+        initGuide();
+    })
+    //初始化页头
+    function initPageHead() {
+        var html= "您好，欢迎使用金科绿蚂蚁干线物流B2B平台！\n" +
+            "<a href=\"http://www.lvmae.com/member/login.php\" rel=\"nofollow\">登录</a>\n" +
+            "<a href=\"http://www.lvmae.com/member/register.php\" rel=\"nofollow\">注册</a>";
+        $("#userStatus").html(html);
+        $("#sandBox").attr("src","http://www.lvmae.com/skin/default/images/ewm_1.jpg");
+
+    }
+    //二维码显示
+    function popupSandBox(i) {
+        if (i == 0) {
+            $("#popup").prop("class","item tel-app dropdown");
+        } else {
+            $("#popup").prop("class","item tel-app dropdown current");
+        }
+
+    }
+    //初始化店招
+    function initShopFor() {
+        $("#logHref").attr('href','http://www.lvmae.com/')
+        $("#headAdvertisingHref").attr('href','http://www.lvmae.com/')
+        $("#headAdvertisingImg").attr('src','http://www.lvmae.com/file/upload/201607/26/15-20-49-92-1.jpg')
+    }
+    //初始化导航
+    function initGuide() {
+        var html = '<li><a class="current" href="http://www.lvmae.com/">首页</a></li>';
+        html += '<li><a href="http://www.lvmae.com/road/">物流专线</a></li>';
+        html += '<li><a href="http://www.lvmae.com/road/deliver.html">在线发货</a></li>';
+        html += '<li><a href="http://www.lvmae.com/seaport/">国际海运</a></li>';
+        html += '<li><a href="http://www.lvmae.com/company/">物流公司</a></li>';
+        html += '<li><a href="http://www.lvmae.com/news/">物流新闻</a></li>';
+        html += '<li><a href="http://www.lvmae.com/bid/">物流招标</a></li>';
+        html += '<li><a href="http://www.lvmae.com/goods/">在线购买</a></li>';
+        $("#title").html(html);
+        $("#personalCenter").attr("href","http://www.lvmae.com/member");
+    }
+
+</script>
+</html>

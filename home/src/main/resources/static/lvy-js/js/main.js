@@ -491,18 +491,16 @@ $(function() {
 	}
 	backToTop();
 });
-
+//专线查询即刻查询方法
 function RoadQuery() {
     var $leave_city = $("#road_leave_city");
     var data_leave_city = $leave_city.data("geo");
-    
     if (typeof (data_leave_city) != "object" || data_leave_city.provinceID == null) {
         setTimeout(function () {
             $leave_city.trigger("click");
         }, 10);
         return;
     }
-    
     var $arrive_city = $("#road_arrive_city");
     var data_arrive_city = $arrive_city.data("geo");
     if (typeof (data_arrive_city) != "object" || data_arrive_city.provinceID == null) {
@@ -511,10 +509,8 @@ function RoadQuery() {
         }, 10);
         return;
     }
-	
     var temp_leave = road_leave_geo;
     var temp_arrive = road_arrive_geo;
-
     for (var p in temp_leave) {
         if (temp_leave[p] == -1 || temp_leave[p] === undefined)
             temp_leave[p] = 0;
@@ -527,10 +523,11 @@ function RoadQuery() {
 //    var leave_str = temp_leave["provinceID"] + "_" + temp_leave["cityID"] + "_" + temp_leave["districtID"];
 //    var arrive_str = temp_arrive["provinceID"] + "_" + temp_arrive["cityID"] + "_" + temp_arrive["districtID"];
 //	  var url = "search.php?leave=" + leave_str + "&arrive=" + arrive_str;
+	alert(leave_str)
 	if(temp_leave["districtID"]<1 && temp_arrive["districtID"]<1){
-		var url = "road/"+leave_str+"/index.html";
+		var url = "road/"+leave_str+"/index.html";//市路线跳转
 	}else{
-		var url = "road/"+leave_str+"/index-"+temp_leave["districtID"]+"-"+temp_arrive["districtID"]+".html";
+		var url = "road/"+leave_str+"/index-"+temp_leave["districtID"]+"-"+temp_arrive["districtID"]+".html";//区路线跳转
 	}
 	
     window.location.href = url;
