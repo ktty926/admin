@@ -2,8 +2,10 @@ package com.jk.model.area;
 
 public class AreaBean {
     private  Integer id;
-    private  Integer name;
+    private  String name;
     private  Integer pid;
+    private  Integer chinaStart;
+    private  Integer regionId;
 
     public Integer getId() {
         return id;
@@ -13,11 +15,11 @@ public class AreaBean {
         this.id = id;
     }
 
-    public Integer getName() {
+    public String getName() {
         return name;
     }
 
-    public void setName(Integer name) {
+    public void setName(String name) {
         this.name = name;
     }
 
@@ -27,5 +29,21 @@ public class AreaBean {
 
     public void setPid(Integer pid) {
         this.pid = pid;
+    }
+
+    public Integer getChinaStart() {
+        return chinaStart;
+    }
+
+    public void setChinaStart(Integer chinaStart) {
+        this.chinaStart = chinaStart;
+    }
+
+    public Integer getRegionId() {
+        return regionId;
+    }
+
+    public void setRegionId(Integer regionId) {
+        this.regionId = regionId;
     }
 }

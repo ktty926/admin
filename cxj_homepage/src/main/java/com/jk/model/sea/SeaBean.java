@@ -6,7 +6,8 @@ public class SeaBean {
     private   String  destinationHarbor;//目的港
     private   Integer  prescription;//时效
     private   Integer  price;//运输价格  0 面议
-    private   String  shipId;//船公司
+    private   String  shipId;//船公司id
+    private   String  shipName;//船公司名字
     private   String  guaranteeId;//保障
     private   String  hotline;//热线
 
@@ -72,5 +73,13 @@ public class SeaBean {
 
     public void setHotline(String hotline) {
         this.hotline = hotline;
+    }
+
+    public String getShipName() {
+        return shipName;
+    }
+
+    public void setShipName(String shipName) {
+        this.shipName = shipName;
     }
 }

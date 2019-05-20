@@ -4,19 +4,56 @@
 <mapper namespace="com.jk.mapper.homepage.HomepageMapper">
 
 <select id="findSea" parameterType="com.jk.model.sea.SeaBean" resultType="com.jk.model.sea.SeaBean">
-    select * from t_sea
+    select se.*,sh.name as shipName from t_sea se
+    left  join  t_ship sh on sh.id=se.shipId
     where  1=1
     <if test="seaBean.startHarbor !=null and seaBean.startHarbor !=''">
-        and startHarbor like '%${seaBean.startHarbor}%'
+        and se.startHarbor like '%${seaBean.startHarbor}%'
     </if>
     <if test="seaBean.destinationHarbor !=null and seaBean.destinationHarbor !=''">
-        and destinationHarbor like '%${seaBean.destinationHarbor}%'
+        and se.destinationHarbor like '%${seaBean.destinationHarbor}%'
     </if>
 </select>
-    <select id="findArea" parameterType="int" resultType="com.jk.model.area.AreaBean">
 
-       select * from  china  where  pid=#{pid}
+    <select id="findCount" resultType="int">
+
+        select  count(1) from t_company
+    </select>
+    <select id="findLogistics" parameterType="int" resultType="com.jk.model.company.CompanyBean">
+
+        select  * from t_company c
+        left   join t_means m on m.id=c.companyDataId
+        limit #{start},#{limit}
+    </select>
+<select id="findShouYe" parameterType="com.jk.model.company.CompanyBean" resultType="com.jk.model.company.CompanyBean">
+    select  c.*,p.*,m.*,l.*,ch1.Id as ch1Id,ch1.Name as ch1Name,ch1.Pid as ch1Pid,ch1.regionId as ch1RegionId,ch1.type as ch1Type,ch1.chinaStart as ch1ChinaStart,ch2.Id as ch2Id,ch2.Name as ch2Name,ch2.Pid as ch2Pid,ch2.regionId as ch2RegionId,ch2.type as ch2Type,ch2.chinaStart as ch2ChinaStart,ca.lineId as lineId2,ca.priceId  as priceId2,ca.xhId,ca.endHour,t.departureTime,ca.giveHome,ca.lowPrice,ca.openHour,ca.postStatus,ca.takeHome from t_company c
+    LEFT JOIN  capacity  ca on ca.lineId=c.companyCircuitId
+    left   join t_line l on l.lineId=c.companyCircuitId
+    left   join china ch1 on ch1.id=l.startStation
+    left   join china ch2 on ch2.id=l.endStation
+    LEFT JOIN  pricelist  p on p.priceId=ca.priceId
+    LEFT JOIN  t_means m on m.id=c.companyDataId
+    LEFT JOIN  timetable t on t.fcsjId=ca.fcsjId
+    where  1=1
+    <if test="companyBean.companyName !=null and companyBean.companyName !=''">
+        and c.companyName like '%${companyBean.companyName}%'
+    </if>
+    <if test="companyBean.startStation !=null">
+        and l.startStation=#{companyBean.startStation}
+    </if>
+    <if test="companyBean.endStation !=null">
+        and l.endStation=#{companyBean.endStation}
+    </if>
+</select>
+    <select id="findTransportation" resultType="com.jk.model.company.CompanyBean">
+      select  c.*,p.*,m.*,l.*,ch1.Id as ch1Id,ch1.Name as ch1Name,ch1.Pid as ch1Pid,ch1.regionId as ch1RegionId,ch1.type as ch1Type,ch1.chinaStart as ch1ChinaStart,ch2.Id as ch2Id,ch2.Name as ch2Name,ch2.Pid as ch2Pid,ch2.regionId as ch2RegionId,ch2.type as ch2Type,ch2.chinaStart as ch2ChinaStart,ca.lineId as lineId2,ca.priceId  as priceId2,ca.xhId,ca.endHour,t.departureTime,ca.giveHome,ca.lowPrice,ca.openHour,ca.postStatus,ca.takeHome from t_company c
+    LEFT JOIN  capacity  ca on ca.lineId=c.companyCircuitId
+    left   join t_line l on l.lineId=c.companyCircuitId
+    left   join china ch1 on ch1.id=l.startStation
+    left   join china ch2 on ch2.id=l.endStation
+    LEFT JOIN  pricelist  p on p.priceId=ca.priceId
+    LEFT JOIN  t_means m on m.id=c.companyDataId
+    LEFT JOIN  timetable t on t.fcsjId=ca.fcsjId
 
     </select>
-
 </mapper>
