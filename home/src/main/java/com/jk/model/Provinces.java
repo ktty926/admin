@@ -8,7 +8,7 @@ public class Provinces {
 
     private String code = "x";
 
-    private Boolean isMunicipality;
+    private Boolean isMunicipality = false;
 
     private String municipalityId;
 

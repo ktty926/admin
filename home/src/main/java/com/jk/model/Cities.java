@@ -1,6 +1,5 @@
 package com.jk.model;
 
-
 public class Cities {
 
     private String id;
@@ -9,7 +8,7 @@ public class Cities {
 
     private String code = "x";
 
-    private Boolean isGeneral;
+    private Boolean isGeneral = false;
 
     private String provinceId;
 
