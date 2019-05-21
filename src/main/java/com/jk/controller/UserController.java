@@ -1,6 +1,7 @@
 package com.jk.controller;
 
 import com.jk.ConstantConf;
+import com.jk.MyLog;
 import com.jk.bean.PhoneCount;
 import com.jk.bean.User;
 import com.jk.rmi.UserClient;
@@ -54,6 +55,7 @@ public class UserController {
         return "phoneLogin";
     }
 
+    @MyLog(value = "手机登录记录")
     @RequestMapping("phoneLogin")
     @ResponseBody
     public  HashMap<String,Object> phoneLogin(User user,String imgcode, String phonecode,HttpServletRequest request){
@@ -167,6 +169,7 @@ public HashMap<String,Object> findUserByPhone(String phoneNumber){
      * @Param                 usertype    password   phoneNumber
      * @return                uuid   type   code  msg
      **/
+    @MyLog(value = "发货方与物流公司登录记录")
     @RequestMapping("login")
     @ResponseBody
     public HashMap<String,Object> login(User user, HttpServletResponse response, HttpServletRequest request){
@@ -314,6 +317,7 @@ public HashMap<String,Object> findUserByPhone(String phoneNumber){
      * @Param              usertype    password   phoneNumber
      * @return           uuid   type   code  msg
      **/
+    @MyLog(value = "后台公司登录记录")
     @RequestMapping("comLogin")
     @ResponseBody
     public HashMap<String,Object> comLogin(User user, HttpServletResponse response, HttpServletRequest request){
@@ -443,6 +447,9 @@ public HashMap<String,Object> findUserByPhone(String phoneNumber){
 
     
     
+
+
+
 
 
 

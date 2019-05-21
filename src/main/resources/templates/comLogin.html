@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>后台登录入口</title>
-    <link rel="stylesheet" href="/layui/css/layui.css" >
+    <link rel="stylesheet" href="/layui/css/layui.css">
     <link rel="stylesheet" href="/layui/css/modules/laydate/default/laydate.css">
     <link rel="shortcut icon" type="image/x-icon" href="http://www.lvmae.com/favicon.ico" />
     <link rel="stylesheet" type="text/css" href="http://www.lvmae.com/skin/default/css/common.css?version=20170918" />
@@ -13,6 +13,8 @@
     <script type="text/javascript" src="/layui/layui.all.js"></script>
     <script src="/layui/layui.all.js" charset="UTF-8"></script>
     <script src="/layui/jquery-1.8.0.js"></script>
+
+
 </head>
 <body>
 <ul class="layui-nav" lay-filter="">
@@ -91,6 +93,7 @@
 
     function comLogin() {
         var from = $("#loginForm").serialize();
+        alert(from);
         $.ajax({
             url:"/comLogin",
             data:from,

@@ -22,6 +22,18 @@
     </properties>
 
     <dependencies>
+        <!--json  相关jar包-->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.1.36</version>
+        </dependency>
+        <!--aop相关jar包-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+        <!--redis 相关jar包-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
@@ -38,13 +50,13 @@
             <!--<version>2.1.6.RELEASE</version>-->
             <scope>compile</scope>
         </dependency>
-
+        <!-- 为POI  start -->
         <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi</artifactId>
             <version>3.16</version>
 
-        </dependency> <!-- 为POI支持Office Open XML -->
+        </dependency>
         <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi-ooxml</artifactId>
@@ -70,7 +82,7 @@
             <artifactId>xmlbeans</artifactId>
             <version>2.3.0</version>
         </dependency>
-
+        <!-- 为POI  end -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
