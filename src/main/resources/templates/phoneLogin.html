@@ -1,0 +1,240 @@
+<html><head>
+    <title>手机登录</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <link rel="shortcut icon" type="image/x-icon" href="http://www.lvmae.com/favicon.ico">
+    <!--[if IE]>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <![endif]-->
+    <link rel="stylesheet" href="/js/easyui1.5/themes/icon.css">
+    <link rel="stylesheet" href="/js/easyui1.5/themes/default/easyui.css">
+    <script src="/js/easyui1.5/jquery.min.js"></script>
+    <script src="/js/easyui1.5/jquery.easyui.min.js"></script>
+    <script src="/js/easyui1.5/locale/easyui-lang-zh_CN.js"></script>
+    <link rel="stylesheet" type="text/css" href="http://www.lvmae.com/skin/default/css/index.css">
+    <link rel="stylesheet" type="text/css" href="http://www.lvmae.com/skin/default/css/update.css"><link rel="stylesheet" type="text/css" href="http://www.lvmae.com/skin/default/css/jquery.Jcrop.css"><link rel="stylesheet" type="text/css" href="http://www.lvmae.com/skin/default/css/uploadify.css">
+    <link rel="stylesheet" type="text/css" href="http://www.lvmae.com/skin/default/css/head_foot.css">
+    <link rel="stylesheet" type="text/css" href="http://www.lvmae.com/skin/default/css/home_small.css">
+    <script src="http://push.zhanzhang.baidu.com/push.js"></script><script type="text/javascript">
+    var _HotLineScrollTop = "";
+    var basePath = "http://www.lvmae.com/";
+    var resourcePath = "http://img.lvmae.com/JAVA";
+    var baseLebpPath = "http://kuaidi.lvmae.com";
+    var userLogoPath = "http://img.lvmae.com/image/UserHeadPortrait/";
+</script>
+    <script type="text/javascript" src="http://www.lvmae.com/file/script/index/jquery.min.js" charset="UTF-8"></script>
+
+</head>
+<body>
+<script>
+    (function(){
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        }
+        else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+<!-- head 开始 -->
+<div class="header">
+    <div class="header_logo container">
+        <div class="ad_top">
+            <script type="text/javascript" src="/toLogin"></script><a href="/toLogin" target="_blank"><img src="http://www.lvmae.com/file/upload/201607/26/15-20-49-92-1.jpg" width="250" height="74" alt=""></a>
+        </div>
+        <a href="/toLogin"></a>
+    </div>
+
+</div><link href="http://www.lvmae.com/skin/default/member/style/common.css" rel="stylesheet">
+<!--公用样式表 end -->
+<!--字体图标样式表 start-->
+<link href="http://www.lvmae.com/skin/default/member/style/font-awesome.min.css" type="text/css" rel="stylesheet">
+<!--字体图标样式表 end -->
+<link href="http://www.lvmae.com/skin/default/member/style/findPwd.css" rel="stylesheet">
+<style type="text/css">
+    .findPwd ul.Findform{width:450px;}
+    .findPwd ul.Findform li.item a.btn-1{background-color:#7abd54;}
+    .send-color{background-color:#ccc;}
+</style>
+<form method="post" action="" onsubmit="return check();" id="dform">
+    <input type="hidden" name="action" value="">
+    <input type="hidden" name="option" value="mobile">
+    <div class="findPwd">
+        <ul class="Findform">
+            <li class="item">
+                <div style="float: left">
+                    <span class="label">验证码：</span>
+                </div>
+                <div style="float: left">
+                    <input type="text" class="txt yzm" size=5 name="imgcode"  id="imgId" placeholder="请输入验证码">
+                </div>
+                <div style="float: left">
+                    <img id="imgcode" src="/verificationCode" onclick="change()">
+                </div>
+                <i style="color:red;" id="imgcod"></i>
+            </li>
+            <li class="item">
+                <span class="label">手机号：</span><input type="text" name="phoneNumber" id="username" placeholder="请输入手机号"><a class="btn-1" href="javascript:void(0);" onclick="get_code()" id="btnSendSmsCode">获取验证码</a><i style="color:red;" id="dusername"></i>
+            </li>
+            <li class="item">
+                <span class="label">短信码：</span><input type="text" id="phonecode" name="code" placeholder="请输入短信码"> <i style="color:red;" id="dcode"></i>
+            </li>
+            <li class="item">
+                <input type="button" id="logBtn" value=" 快速登录 " class="btn-2" style="background-color: #7abd54;margin-left: 80px;border-radius: 3px;width:85px;color:#fff;">
+            </li>
+        </ul>
+
+    </div>
+</form>
+<script type="text/javascript">
+
+    //看不清刷新
+    function change(){
+        $("#imgcode").attr("src","/verificationCode?t="+Date.now());
+    }
+    //获取短信验证码
+    var times=60;
+    function get_code(){
+
+        var username=$('#username').val();
+        if(username.length != 11) {
+            $('#dusername').html('请输入正确的手机号').show();
+            return false;
+        }else{
+            $('#dusername').html('').hide();
+        }
+
+        if($('#btnSendSmsCode').text()=='获取验证码'){
+            times=60;
+
+            $.ajax({
+                url: "/duanxin",
+                type:"post",
+                data: {
+                    phoneNumber: $('#username').val()
+                },
+                dataType:"json",
+                success: function (data) {
+
+                    if (data.code != 0) {
+                        alert(data.msg);
+                    } else {
+                        alert(data.msg);
+                    }
+                }
+            })
+        }else{
+            return;
+        }
+     /*   $.ajax({
+            type: "POST",
+            url: "http://www.lvmae.com/member/send.php?action=getcode",
+            dataType : "json",
+            data: {mobile : $('#username').val(), verify_code : $('#verify_code').val() },
+            success: function( data ) {
+                $('#dusername').html(data.info).show();
+                if(data.status==1){set_times();$('#norma2').addClass('doing');}
+            }
+        });*/
+    }
+    function set_times(){
+        if(times>0){
+            times--;
+            $('#btnSendSmsCode').text(times+'秒后可再次获取验证');
+            $('#btnSendSmsCode').css('background-color','#ccc');
+            setTimeout(function () {
+                set_times(times);
+            }, 1000);
+        }else{
+            $('#btnSendSmsCode').text('获取验证码');
+            $('#btnSendSmsCode').css('background-color','#7abd54');
+            $(_this).attr('disabled',false);
+            return false;
+        }
+
+    }
+  /*  $('a[class="imgYz"]').click(function(){
+        $('#captchapng').attr('src', '/randomCode?code='+Math.random());
+    })*/
+
+    $("#logBtn").click(function () {
+
+        var username=$('#username').val();
+        var phonecode=$('#phonecode').val();
+        var imgcode=$('#imgId').val();
+        if(imgcode.length != 4) {
+            $('#imgcod').html('请填写正确的验证码');
+            return false;
+        }
+        if(username.length != 11) {
+            $('#dusername').html('请填写正确的手机号');
+            return false;
+        }
+        if(phonecode.length< 6) {
+            $('#dcode').html('请填写正确的验证码');
+            return false;
+        }
+
+        $.ajax({
+            url:'/phoneLogin',
+            type:"post",
+            data:{
+                phoneNumber:username,
+                phonecode:phonecode,
+                imgcode:imgcode
+            },
+            dataType:'json',
+            success:function(data){
+                alert(data.code);
+                if (data.code == 0 ){
+                    alert(data.msg);
+                    location.href="/main"
+                }else{
+                    alert(data.msg);
+                }
+            }
+        })
+
+
+    })
+
+    /*function check() {
+
+    }*/
+</script>
+<div class="footer">
+    <div class="container">
+        <div class="btn_simple">
+            <a href="http://www.lvmae.net/show-9-2-1.html" target="_blank" rel="nofollow">绿蚂蚁介绍</a>
+            <a href="http://www.lvmae.net/list-10-1.html" target="_blank" rel="nofollow">大事记</a>
+            <a href="http://www.lvmae.net/list-14-1.html" target="_blank" rel="nofollow">公司动态</a>
+            <a href="http://www.lvmae.net/list-13-1.html" target="_blank" rel="nofollow">媒体报告</a>
+            <a href="http://www.lvmae.net/show-9-3-1.html" target="_blank" rel="nofollow">联系我们</a>
+            <div class="more-site">
+                <div class="more-link-box">
+                    <ul id="site_list">
+                        <li><a href="http://www.lvmae.net/" target="_blank">绿蚂蚁官网</a></li>
+                        <li><a href="http://www.lvmae.com/" target="_blank">绿蚂蚁物流</a></li>
+                        <li><a href="http://kuaidi.lvmae.com/" target="_blank">绿蚂蚁快递</a></li>
+                        <li><a href="http://news.lvmae.com/" target="_blank">绿蚂蚁资讯</a></li>
+                        <li><a href="http://ask.lvmae.com/" target="_blank">绿蚂蚁问答</a></li>
+                    </ul>
+                </div>
+                <span>绿蚂蚁旗下网站</span>
+            </div>
+        </div>
+        <p class="footer_copyright">Copyright © 绿蚂蚁干线<a href="http://www.lvmae.com">物流</a>B2B平台 All rights reserved. 粤ICP备14032800号-1</p>
+        <p class="footer_copyright" style="margin-top:10px;"><a key="55cb19b7efbfb03c90332072" logo_size="124x47" logo_type="realname" href="https://v.pinpaibao.com.cn/authenticate/cert/?site=www.lvmae.com&amp;at=realname" target="_blank"><script src="http://static.anquan.org/static/outer/js/aq_auth.js"></script><b id="aqLogoNUYDJ" style="display: none;"></b><img src="//static.anquan.org/static/outer/image/sm_124x47.png?id=www.lvmae.com?t=40" alt="安全联盟认证" width="124" height="47" style="border: none;"></a></p>
+    </div>
+</div>
+<span style="display:none;"><script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F113a0efbcb8d4e12dac632a3de270881' type='text/javascript'%3E%3C/script%3E"));
+var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1254113276'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s11.cnzz.com/z_stat.php%3Fid%3D1254113276' type='text/javascript'%3E%3C/script%3E"));</script><script src=" http://hm.baidu.com/h.js?113a0efbcb8d4e12dac632a3de270881" type="text/javascript"></script><span id="cnzz_stat_icon_1254113276"><a href="https://www.cnzz.com/stat/website.php?web_id=1254113276" target="_blank" title="站长统计">站长统计</a></span><script src=" http://s11.cnzz.com/z_stat.php?id=1254113276" type="text/javascript"></script><script src="http://c.cnzz.com/core.php?web_id=1254113276&amp;t=z" charset="utf-8" type="text/javascript"></script><script src="http://s95.cnzz.com/z_stat.php?id=1256389723&amp;web_id=1256389723" language="JavaScript"></script><script src="http://c.cnzz.com/core.php?web_id=1256389723&amp;t=z" charset="utf-8" type="text/javascript"></script><a href="https://www.cnzz.com/stat/website.php?web_id=1256389723" target="_blank" title="站长统计">站长统计</a></span>
+
+</body></html>
