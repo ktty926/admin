@@ -4,7 +4,10 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.jk.model.area.AreaBean;
 import com.jk.model.company.CompanyBean;
+import com.jk.model.invoice.InvoicBeane;
+import com.jk.model.line.LineBean;
 import com.jk.model.sea.SeaBean;
+import com.jk.model.tejia.TejiaBean;
 import com.jk.service.homepage.HomepageService;
 import com.jk.utils.HttpClientUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,7 +62,7 @@ public  String   piao(){
 
     }
 
-    //地图经纬度  没有卵用
+    //地图经纬度  与题意不符
     @RequestMapping("map")
     @ResponseBody
     public JSONObject map(String key,String lat,String lng,int type) {
@@ -116,5 +119,36 @@ public  String   piao(){
 
         return  homepageService.findRegionId(regionId);
     }
+
+    //专线
+    @RequestMapping("findLine")
+    @ResponseBody
+    public  List<LineBean> findLine(){
+
+        return  homepageService.findLine();
+    }
+
+    //发货单
+    @RequestMapping("findInvoice")
+    @ResponseBody
+    public  List<InvoicBeane> findInvoice(){
+
+        return  homepageService.findInvoice();
+    }
+    //特价
+    @RequestMapping("findTejia")
+    @ResponseBody
+    public  List<TejiaBean> findTejia(TejiaBean tejiaBean){
+        List<TejiaBean> tejia = homepageService.findTejia(tejiaBean);
+        for (int i=0;i<tejia.size();i++){
+            Double priceMax = tejia.get(i).getPriceMax();
+            Double priceMin = tejia.get(i).getPriceMin();
+            Double v = priceMin / priceMax * 10;
+            String result = String.format("%.1f",v);
+            tejia.get(i).setZheQ(result);
+        }
+        return  tejia;
+    }
+
 
 }

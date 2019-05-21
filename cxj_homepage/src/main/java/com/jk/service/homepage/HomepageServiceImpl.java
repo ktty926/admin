@@ -3,7 +3,10 @@ package com.jk.service.homepage;
 import com.jk.mapper.homepage.HomepageMapper;
 import com.jk.model.area.AreaBean;
 import com.jk.model.company.CompanyBean;
+import com.jk.model.invoice.InvoicBeane;
+import com.jk.model.line.LineBean;
 import com.jk.model.sea.SeaBean;
+import com.jk.model.tejia.TejiaBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -77,5 +80,20 @@ public class HomepageServiceImpl implements HomepageService {
     @Override
     public List<AreaBean> findRegionId(Integer regionId) {
         return homepageMapper.findRegionId(regionId);
+    }
+
+    @Override
+    public List<LineBean> findLine() {
+        return homepageMapper.findLine();
+    }
+
+    @Override
+    public List<InvoicBeane> findInvoice() {
+        return homepageMapper.findInvoice();
+    }
+
+    @Override
+    public List<TejiaBean> findTejia(TejiaBean tejiaBean) {
+        return homepageMapper.findTejia(tejiaBean);
     }
 }

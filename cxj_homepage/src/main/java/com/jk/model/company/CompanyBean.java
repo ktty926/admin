@@ -20,10 +20,10 @@ public class CompanyBean implements Serializable {
     private  String  companyAuthId;     //认证表Id
     private  String  transportationId;     //运输Id
 
-    private  String  officialWebsite;     //官方网站
+    private  String  gfwz;     //官方网站
     private  Integer  chinaId;    //省id
     private  String  LOGO;     //LOGO
-    private  String  serviceTenet;     //服务宗旨
+    private  String  fwzz;     //服务宗旨
     private  String  companyProfile;     //公司介绍
     private  String  advantageServiceIndustry;     //优势服务行业
     private  String  companyAbbreviation;     //公司简称
@@ -431,13 +431,7 @@ public class CompanyBean implements Serializable {
         this.companyAuthId = companyAuthId;
     }
 
-    public String getOfficialWebsite() {
-        return officialWebsite;
-    }
 
-    public void setOfficialWebsite(String officialWebsite) {
-        this.officialWebsite = officialWebsite;
-    }
 
     public Integer getChinaId() {
         return chinaId;
@@ -455,12 +449,20 @@ public class CompanyBean implements Serializable {
         this.LOGO = LOGO;
     }
 
-    public String getServiceTenet() {
-        return serviceTenet;
+    public String getGfwz() {
+        return gfwz;
     }
 
-    public void setServiceTenet(String serviceTenet) {
-        this.serviceTenet = serviceTenet;
+    public void setGfwz(String gfwz) {
+        this.gfwz = gfwz;
+    }
+
+    public String getFwzz() {
+        return fwzz;
+    }
+
+    public void setFwzz(String fwzz) {
+        this.fwzz = fwzz;
     }
 
     public String getCompanyProfile() {

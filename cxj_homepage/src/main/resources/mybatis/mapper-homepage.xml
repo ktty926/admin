@@ -56,4 +56,33 @@
     LEFT JOIN  timetable t on t.fcsjId=ca.fcsjId
 
     </select>
+    <select id="findLine" resultType="com.jk.model.line.LineBean">
+       select  l.lineId,c1.Name as startName,c2.Name as endName from  t_line l
+        left  join  china  c1 on c1.id=l.startStation
+        left  join  china  c2 on c2.id=l.endStation
+        order by lineId  desc
+
+    </select>
+    <select id="findInvoice" resultType="com.jk.model.invoice.InvoicBeane">
+
+        select  c.companyId,c.companyPhone,c.companyCircuitId,l.lineId,c1.Name as startName,c2.Name as endName from t_company c
+        left  join  t_line l on  l.lineId=c.companyId
+        left  join  china  c1 on c1.id=l.startStation
+        left  join  china  c2 on c2.id=l.endStation
+        order by c.companyId desc LIMIT 20
+
+    </select>
+    <select id="findTejia" parameterType="com.jk.model.tejia.TejiaBean" resultType="com.jk.model.tejia.TejiaBean">
+        select  c.companyId,c.companyName,c1.Name as startName,c2.Name as endName,MAX(p.heavyPrice) as priceMax,MIN(p.heavyPrice) as priceMin from t_company  c
+        LEFT JOIN  t_line l on l.lineId=c.companyCircuitId
+        left  join  china  c1 on c1.id=l.startStation
+        left  join  china  c2 on c2.id=l.endStation
+        LEFT JOIN  capacity ca on ca.companyId=c.companyId
+        LEFT JOIN  pricelist p on p.capacityId=ca.xhId
+        WHERE p.type = 1
+        <if test="tejiaBean.startStation != null">
+            and l.startStation=#{tejiaBean.startStation}
+        </if>
+        GROUP BY l.lineId
+    </select>
 </mapper>
