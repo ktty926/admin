@@ -16,6 +16,9 @@ import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -42,6 +45,8 @@ import java.util.List;
 public class UserController {
     @Autowired
     private UserClient userClient;
+    @Autowired
+    private MongoTemplate mongoTemplate;
     /**
      * @Author chh
      * @Description //TODO 到手机登录页面
@@ -359,8 +364,40 @@ public HashMap<String,Object> findUserByPhone(String phoneNumber){
 
     }
 
+/**
+ * @Author chh
+ * @Description //TODO    查询黑名单
+ * @Date 19:40 2019/5/21
+ * @Param
+ * @return
+ **/
+@RequestMapping("findPhoneCount")
+@ResponseBody
+public HashMap<String, Object> findPhoneCount(){
+    HashMap<String, Object> hashMap = new HashMap<>();
+    Query query = new Query();
 
-    
+    long count = mongoTemplate.count(query, PhoneCount.class);
+
+    List<PhoneCount> phoneCounts = mongoTemplate.find(query, PhoneCount.class);
+    hashMap.put("code",0);
+    hashMap.put("count",count);
+    hashMap.put("data",phoneCounts);
+    return  hashMap;
+}
+    /**
+     * @Author chh
+     * @Description //TODO   到  导入导出 页面
+     * @Date 19:06 2019/5/21
+     * @Param
+     * @return
+     **/
+    @RequestMapping("toPoi")
+    public String toPoi() {
+        return "main";
+    }
+
+
 
     /**
      * @Author chh
@@ -457,7 +494,7 @@ public HashMap<String,Object> findUserByPhone(String phoneNumber){
     public String  logout(HttpServletRequest request,HttpServletResponse response) {
         HttpSession session = request.getSession();
         session.removeAttribute(session.getId());
-        return  "Redirect:login";
+        return  "login";
     }
 
 

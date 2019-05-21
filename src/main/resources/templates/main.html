@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>导入导出</title>
+    <link rel="stylesheet" href="/bootstrap/bootstrap3/css/bootstrap.css">
+    <link rel="stylesheet" href="/bootstrap/bootstrap-table/bootstrap-table.css">
+    <link rel="stylesheet" href="/bootstrap/bootstrap-fileinput/css/fileinput.css">
+    <script src="/bootstrap/easyui1.5/jquery.min.js"></script>
+    <script src="/bootstrap/bootstrap3/js/bootstrap.js"></script>
+    <script src="/bootstrap/bootstrap-table/bootstrap-table.js"></script>
+
+    <script src="/bootstrap/bootstrap-table/locale/bootstrap-table-zh-CN.js"></script>
+    <script src="/bootstrap/bootbox/bootbox.all.min.js"></script>
+    <script src="/bootstrap/bootstrap-fileinput/js/fileinput.js"></script>
+    <script src="/bootstrap/bootstrap-fileinput/js/locales/zh.js"></script>
+    <script src="/bootstrap/jquery.form.js"></script>
+
+</head>
+<body>
+<nav class="navbar navbar-inverse navbar-static-top">
+    <div class="navbar-header">
+
+        <a class="navbar-brand" href="/toComLogin">绿蚂蚁物流系统</a>
+    </div>
+
+</nav>
+
+<div class="row" style="margin-top: 150px">
+    <div class="col-md-3"></div>
+    <div class="col-md-6" style="background-color: #00bbee">
+        <form method="post" enctype="multipart/form-data" id="poiForm">
+            <table>
+                <tr>
+                    <td><input type="submit" value="导入Excel到mysql" id="btn" name="btn" class="btn btn-default"></td>
+                    <td><input type="file" name="upfile" id="upfile"></td>
+                </tr>
+                <tr>
+                </tr>
+            </table>
+        </form>
+        <button id="exportBtn"  class="export-excel btn btn-default" data-table="#countTable">全选</button>
+        <button class="btn btn-default"  onclick="exportExcel()">导出excel表格</button>
+        <div class="container-fluid" id="treeTable"></div>
+
+    </div>
+    <div class="col-md-3"></div>
+
+</div>
+
+
+</body>
+<script type="text/javascript">
+
+
+    $("#treeTable").bootstrapTable({
+        url: '/findPhoneCount',
+        method: 'post',
+        contentType: 'application/x-www-form-urlencoded',//post请求按照表单方式
+        columns: [
+            {field : 'id',title : '主键ID',formatter : function(value,row,index) {
+                    return '<input type="checkbox" value=' + value + ' name="chk">';
+                } },
+            {field: 'phoneNumber', title: '账号'},
+            {field: 'status', title: '状态',formatter : function(value,row,index) {
+                    return value=value==1?"被拉黑":"";
+                }}
+        ]
+    })
+
+
+    //全选
+    $("#exportBtn").click(function(){
+
+        $("[name='chk']").prop("checked",true);
+    })
+    //导出
+    function  exportExcel(){
+        var chk=$("[name='chk']:checked");
+        var ids="";
+        for (var i=0;i<chk.length;i++){
+            ids+=ids==""?chk[i].value:","+chk[i].value;
+        }
+        alert(ids);
+    if(ids!=""){
+        location.href="/exportPoi?ids="+ids;
+    }else{
+        alert("请选择要导出的数据");
+    }
+    }
+    //导入
+
+    $("#btn").click(function(){
+        alert(111);
+        $("#poiForm").ajaxSubmit({
+            url: "/enterPoi",
+            dataType: 'text',
+            success: function (data) {
+                $("#upfile").val("");
+                if(data){
+                    alert("成功导入Excel文件！")
+                }else{
+                    alert("导入Excel文件出错！")
+                }
+            },
+            error: function () {
+                alert("导入Excel文件出错！")
+            }
+        })
+
+    })
+</script>
+</html>
