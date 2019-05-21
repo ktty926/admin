@@ -3,14 +3,31 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jk.mapper.OrderMapper">
 
+    <select id="findOrderByOrderNum" resultType="com.jk.bean.Order" parameterType="java.lang.String">
+        SELECT ao.*,c.`Name` as departure,c1.`Name` as arrivals FROM accept_order ao
+        INNER JOIN t_line tl on ao.xianlu = tl.lineId
+        INNER JOIN china c on c.Id = tl.startStation
+        INNER JOIN china c1 on c1.Id = tl.endStation
+        WHERE ao.order_number = #{value}
+    </select>
+
     <select id="findOrderByCount" resultType="java.lang.Long" parameterType="map">
-        select count(1) from accept_order
+
+        SELECT count(1) FROM accept_order ao
+        INNER JOIN t_line tl on ao.xianlu = tl.lineId
+        INNER JOIN china c on c.Id = tl.startStation
+        INNER JOIN china c1 on c1.Id = tl.endStation
         <include refid="queryOrder"></include>
     </select>
 
     <select id="findOrder" parameterType="hashmap" resultType="com.jk.bean.Order">
 
-        select * from accept_order
+
+        SELECT ao.*,c.`Name` as departure,c1.`Name` as arrivals FROM accept_order ao
+        INNER JOIN t_line tl on ao.xianlu = tl.lineId
+        INNER JOIN china c on c.Id = tl.startStation
+        INNER JOIN china c1 on c1.Id = tl.endStation
+
         <include refid="queryOrder"></include>
         limit #{page},#{limit}
     </select>
@@ -20,44 +37,53 @@
         <where>
             and user_id = #{order.userId}
 
+            <if test="order.area == 1 and order.province != null and order.province != '' and order.province != 0">
+                and tl.startStation = #{order.province}
+            </if>
+
+            <if test="order.area == 2 and order.province != null and order.province != '' and order.province != 0">
+                and tl.endStation = #{order.province}
+            </if>
+
+
             <!-- 根据订单状态查询 -->
             <if test="order.orderStatus != null and order.orderStatus != ''">
-                and order_status = #{order.orderStatus}
+                and ao.order_status = #{order.orderStatus}
             </if>
 
             <!-- 订单号查询 -->
             <if test="order.status == 1 and order.orderNumber != null and order.orderNumber != ''">
-                and order_number like '%${order.orderNumber}%'
+                and ao.order_number like '%${order.orderNumber}%'
             </if>
 
             <!-- 发货人查询 -->
             <if test="order.status == 2 and order.orderNumber != null and order.orderNumber != ''">
-                and sender like '%${order.orderNumber}%'
+                and ao.sender like '%${order.orderNumber}%'
             </if>
 
             <!-- 发货人手机号 -->
             <if test="order.status == 3 and order.orderNumber != null and order.orderNumber != ''">
-                and sender_phone_number like '%${order.orderNumber}%'
+                and ao.sender_phone_number like '%${order.orderNumber}%'
             </if>
 
             <!-- 是否上门提货. 条查 -->
             <if test="order.homeDelivery != null and order.homeDelivery != ''">
-                and manual_picking = #{order.homeDelivery}
+                and ao.manual_picking = #{order.homeDelivery}
             </if>
 
             <!-- 支付状态条查 -->
             <if test="order.paymentMethod != null and order.paymentMethod != ''">
-                and payment_method = #{order.paymentMethod}
+                and ao.payment_method = #{order.paymentMethod}
             </if>
 
             <!-- 下单时间区间条查 start -->
             <if test="order.startCreateTime != null and order.startCreateTime != ''">
-                and create_time &gt;= #{order.startCreateTime}
+                and ao.create_time &gt;= str_to_date(#{order.startCreateTime},'%Y-%m-%d')
             </if>
 
             <!-- 下单时间区间条查 end -->
             <if test="order.endCreateTime != null and order.endCreateTime != ''">
-                and create_time &lt;= #{order.endCreateTime}
+                and ao.create_time &lt;= str_to_date(#{order.endCreateTime},'%Y-%m-%d')
             </if>
 
         </where>

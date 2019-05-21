@@ -20,6 +20,12 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
 
+    @RequestMapping("findOrderByOrderNum")
+    @ResponseBody
+    public Order findOrderByOrderNum(String num){
+        return orderService.findOrderByOrderNum(num);
+    }
+
     @RequestMapping("findArea")
     @ResponseBody
     public List<AreaBean> findArea(Integer pid){

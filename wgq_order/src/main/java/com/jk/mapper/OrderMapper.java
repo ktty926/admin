@@ -21,4 +21,6 @@ public interface OrderMapper {
 
     @Select("SELECT * FROM china where pid = #{value} and id != 0")
     List<AreaBean> findArea(Integer pid);
+
+    Order findOrderByOrderNum(String num);
 }

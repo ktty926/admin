@@ -24,6 +24,14 @@ public class OrderServiceImpl implements OrderService {
     private JedisPool jedisPool;
 
     @Override
+    public Order findOrderByOrderNum(String num) {
+        Order order = null;
+        if (org.apache.commons.lang.StringUtils.isNotEmpty(num))
+        order = orderMapper.findOrderByOrderNum(num);
+            return order;
+    }
+
+    @Override
     public List<AreaBean> findArea(Integer pid) {
         Jedis jedis = jedisPool.getResource();
 

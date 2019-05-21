@@ -14,4 +14,6 @@ public interface OrderService {
     List<TreeBean> getTree();
 
     List<AreaBean> findArea(Integer pid);
+
+    Order findOrderByOrderNum(String num);
 }
