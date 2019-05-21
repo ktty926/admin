@@ -14,7 +14,7 @@ public class User {
 
     private String password;//密码
 
-    private Integer regTypeId;//注册类型
+    private String regTypeId;//注册类型
 
     private String referrer;//推荐人
 

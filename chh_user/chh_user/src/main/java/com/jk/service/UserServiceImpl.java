@@ -103,7 +103,17 @@ public class UserServiceImpl implements UserService {
         Jedis redis = jedisPool.getResource();
         HashMap<String, Object> hash = new HashMap<>();
         Date date = new Date();
-
+        //先去mongodb中查询看是否在黑名单  避免多次添加该用户 TODO
+        if(!StringUtils.isEmpty(phoneNumber)){
+            Query query = new Query();
+            query.addCriteria(Criteria.where("phoneNumber").is(phoneNumber));
+            List<PhoneCount> phoneCounts = mongoTemplate.find(query, PhoneCount.class);
+            if(phoneCounts.size() > 0){
+                hash.put("code",1);
+                hash.put("msg","该手机号被加入黑名单");
+                return hash;
+            }
+        }
         //判断是否今天三次上限
         SimpleDateFormat si = new SimpleDateFormat("yyyy-MM-dd");
         String format = si.format(date);
@@ -304,16 +314,39 @@ public HashMap<String, Object> saveUser(User user,String phonecode) {
         return hashMap;
     }
 
+    
+    /**
+     * @Author chh
+     * @Description //TODO  手机登录
+     * @Date 14:27 2019/5/20
+     * @Param 
+     * @return 
+     **/
+    @Override
+    public HashMap<String, Object> phoneLogin(User user, String phonecode) {
+        Jedis redis = jedisPool.getResource();
+        HashMap<String, Object> hashMap = new HashMap<>();
 
+        User user2 = userMapper.findUserByPhone(user.getPhoneNumber());
+        if(user2 == null){
+            hashMap.put("code",1);
+            hashMap.put("msg","该手机号未注册，请先注册");
+            return hashMap;
+        }
+        String s = redis.get(user.getPhoneNumber());
+        if(!s.equals(phonecode)){
+            hashMap.put("code", 1);
+            hashMap.put("msg", "短信验证码错误");
+            return hashMap;
+        }
+        hashMap.put("code",0);
+        hashMap.put("msg","登录成功");
+        return hashMap;
+    }
 
-
-
-
-
-
-
-
-
-
+    
+    
+    
+    
 }
 

@@ -128,6 +128,21 @@ public HashMap<String,Object> findUserFromRedis(String uuid){
 
 
 
+/**
+ * @Author chh
+ * @Description //TODO     手机登录
+ * @Date 14:25 2019/5/20
+ * @Param
+ * @return
+ **/
+@RequestMapping("phoneLogin")
+@ResponseBody
+public  HashMap<String,Object> phoneLogin(@RequestBody User user, String phonecode){
+    return userService.phoneLogin(user,phonecode);
+}
+
+
+
 
 
 

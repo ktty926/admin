@@ -21,4 +21,6 @@ public interface UserService {
     User login(User user);
 
     HashMap<String, Object> findUserFromRedis(String uuid);
+
+    HashMap<String, Object> phoneLogin(User user, String phonecode);
 }
