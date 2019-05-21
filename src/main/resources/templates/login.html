@@ -62,7 +62,6 @@
     <div class="index_con regis_main">
         <div class="login_container">
             <p class="mid"><img src="http://www.lvmae.com/skin/default/image/login_h.jpg" alt="绿蚂蚁-用户登录"></p>
-            <form method="post" action="login.php" onsubmit="return Dcheck();">
                 <input name="forward" type="hidden" id="forward" value="http://www.lvmae.com/">
                 <table cellpadding="0" cellspacing="0">
                     <tbody>
@@ -84,14 +83,13 @@
                     </tr>
                     <tr>
                         <td>
-                            <input type="submit" id="submit" value="登 录 " class="btn_login">
+                            <input type="button" id="submit" value="登 录 " class="btn_login">
                         </td>
                     </tr>
                     <tr>
                         <td><span class="red" id="errorMess"></span></td>
                     </tr>
                     </tbody></table>
-            </form>
             <p class="regis_Add">还没有绿蚂蚁账户？<a href="javascript:;" onclick="Go();">注册</a></p>
             <p class="regis_Add">试试手机登录？<a href="javascript:;" onclick="phoneLogin();"><img class="currentImg" id="currentImg" onload="alog &amp;&amp; alog('speed.set', 'c_firstPageComplete', +new Date); alog.fire &amp;&amp; alog.fire('mark');" src="http://c12.eoemarket.net/app0/554/554068/screen/2842300.png" width="811.8890625" height="457" style="top: 188px; left: 0px; width: 60px; height: 60px; cursor: pointer;" log-rightclick="p=5.102" title="点击查看源网页"></a></p>
 
@@ -106,27 +104,32 @@
 <div class="clear"></div>
 <script type="text/javascript">
 
+
     $('#submit').click(function () {
         var phoneNumber = $("#phoneNumberId").val();
         var password = $("#passwordId").val();
         var remPwd = $("#remPwdId").val();
-        $.ajax({
-            url:'/login',
-            type:"post",
-            data:{
-                phoneNumber:phoneNumber,
-                password:password,
-                remPwd:remPwd
-            },
-            success:function(data){
-                if (data.code == 0 ){
-                    alert(data.msg);
-                    location.href="/main"
-                }else{
-                    alert(data.msg);
+        if(phoneNumber.length == 11){
+            $.ajax({
+                url:'/login',
+                type:"post",
+                data:{
+                    phoneNumber:phoneNumber,
+                    password:password,
+                    remPwd:remPwd
+                },
+                success:function(data){
+                    if (data.code == 0 ){
+                        alert(data.msg);
+                        location.href="/main"
+                    }else{
+                        alert(data.msg);
+                    }
                 }
-            }
-        })
+            })
+        }else{
+            alert("请填写正确手机号码");
+        }
     });
 
     /*点击注册去注册页面*/

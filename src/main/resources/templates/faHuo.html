@@ -60,6 +60,14 @@
             <form id="regForm" method="post">
                 <ul>
                     <li><span><i>*</i>手机</span><input class="txt" type="text" maxlength="11" name="phoneNumber" id="phoneNumber" placeholder="完后您可以用该手机号登录或找回密码" value=""><p id="phoneNumber_eorrmsg"></p></li>
+                    <li>
+                        <span><i>*</i>验证码</span>
+                        <input class="txt yzm" type="text" maxlength="4" name="imgcode" id="imgId" placeholder="请输入验证码" value="">
+                        <a class="imgYz">
+                            <img id="imgcode" src="/verificationCode" onclick="change()">
+                        </a>
+                        <p id="err_verify_code"></p></li>
+
                     <li><span><i>*</i>短信验证码</span><span><input type="text" name="phonecode" maxlength="6" id="phonecode" placeholder="请输入验证码"/></span><span><button type="button" id="yzmBtn" class="name btn">获取验证码</button></span><p id="err_smscode"></p></li>
                     <li><span><i>*</i>请设置密码</span><input class="txt" name="password" id="password" type="password" maxlength="18" placeholder="6-18位字符，建议由字母、数字和符号两者以上组合" value=""><p id="err_pwd"></p></li>
                     <li><span><i>*</i>请确认密码</span><input class="txt" name="password2" id="cpassword2" type="password" maxlength="18" placeholder="请再次输入密码" value=""><p id="err_pwd2"></p></li>
@@ -114,8 +122,16 @@
     </form>
     <script type="text/javascript" src="http://www.lvmae.com/file/script/jquery.placeholder.js"></script>
     <script type="text/javascript">
-        function add() {
 
+        //看不清刷新
+        function change(){
+            $("#imgcode").attr("src","/verificationCode?t="+Date.now());
+        }
+
+
+
+        function add() {
+            var imgcode=$("input[name='imgcode']").val();
             var phoneNumber=$("input[name='phoneNumber']").val();
             var pass1=$("input[name='password']").val();
             var pass2=$("input[name='password2']").val();
@@ -139,7 +155,7 @@
                 }
             }
 
-            if (phoneNumber != '' && pass1 != '' && pass2 != '' && phonecode != '' ) {
+            if (phoneNumber != '' && pass1 != '' && pass2 != '' && phonecode != ''&& imgcode!='' ) {
 
                 /* phoneNumber_eorrmsg
                  if(phoneNumber == null){
@@ -162,7 +178,8 @@
                                     companyName:companyName,
                                     phonecode:phonecode,
                                     regTypeId:types,
-                                    usertype:usertype
+                                    usertype:usertype,
+                                    imgcode:imgcode
                                 },
                             success: function (data) {
                                 if (data.code==1){
@@ -180,7 +197,7 @@
                     }
                 }
             } else {
-                alert("非空");
+                alert("带 * 为必填项");
                 return false;
             }
         }

@@ -282,16 +282,16 @@ public HashMap<String,Object> findUserByPhone(String phoneNumber){
      **/
     @RequestMapping("reg")
     @ResponseBody
-    public  HashMap<String,Object> saveUser(User user, String phonecode, HttpServletRequest request){
+    public  HashMap<String,Object> saveUser(User user,String imgcode, String phonecode, HttpServletRequest request){
         HashMap<String, Object> hashMap = new HashMap<>();
         //验证码
    HttpSession session = request.getSession();
-   /* String imgcode1 = session.getAttribute("imgcode").toString();
+    String imgcode1 = session.getAttribute("imgcode").toString();
     if(!imgcode1.equals(imgcode)){
         hashMap.put("code", 1);
         hashMap.put("msg", "验证码错误");
         return hashMap;
-    }*/
+    }
         return userClient.saveUser(user,phonecode);
     }
 
@@ -446,7 +446,21 @@ public HashMap<String,Object> findUserByPhone(String phoneNumber){
 
 
     
-    
+    /**
+     * @Author chh
+     * @Description //TODO    退出登录
+     * @Date 11:57 2019/5/21
+     * @Param
+     * @return
+     **/
+    @RequestMapping("logout")
+    public String  logout(HttpServletRequest request,HttpServletResponse response) {
+        HttpSession session = request.getSession();
+        session.removeAttribute(session.getId());
+        return  "Redirect:login";
+    }
+
+
 
 
 
