@@ -3,6 +3,11 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jk.mapper.OrderMapper">
 
+    <insert id="addOrder" parameterType="com.jk.bean.Order">
+        insert into accept_order (sender,sender_phone_number,goods_name,weight,volume,manual_picking,departure_city,home_delivery,arrivals_city,payment_method,other_instructions,receiver_human_name,consignee_mobile_number,user_id,order_number,create_time)
+        values (#{sender},#{senderPhoneNumber},#{goodsName},#{weight},#{volume},#{manualPicking},#{departureCity},#{homeDelivery},#{arrivalsCity},#{paymentMethod},#{otherInstructions},#{receiverHumanName},#{consigneeMobileNumber},#{userId},#{xianlu},#{orderNumber},#{createDate})
+    </insert>
+
     <select id="findOrderByOrderNum" resultType="com.jk.bean.Order" parameterType="java.lang.String">
         SELECT ao.*,c.`Name` as departure,c1.`Name` as arrivals FROM accept_order ao
         INNER JOIN t_line tl on ao.xianlu = tl.lineId
@@ -35,7 +40,7 @@
     <sql id="queryOrder">
 
         <where>
-            and user_id = #{order.userId}
+            /*and user_id = #{order.userId}*/
 
             <if test="order.area == 1 and order.province != null and order.province != '' and order.province != 0">
                 and tl.startStation = #{order.province}

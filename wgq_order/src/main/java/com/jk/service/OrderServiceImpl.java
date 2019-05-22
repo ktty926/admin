@@ -1,18 +1,19 @@
 package com.jk.service;
 
-import com.alibaba.druid.util.StringUtils;
 import com.alibaba.fastjson.JSON;
-import com.jk.bean.AreaBean;
-import com.jk.bean.Order;
-import com.jk.bean.TreeBean;
+import com.jk.bean.*;
 import com.jk.mapper.OrderMapper;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -22,6 +23,98 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private JedisPool jedisPool;
+
+    @Override
+    public HashMap<String, Object> addOrder(Order order) {
+        HashMap<String, Object> hashMap = new HashMap<>();
+        if (order != null){
+            SimpleDateFormat sdf = new SimpleDateFormat("YYYY-mm-dd");
+
+            Date date = new Date();
+            String format = sdf.format(date);
+            String[] split = format.split("-");
+            String str = "";
+            for (String s : split) {
+                str += s;
+            }
+
+            int code = (int) ((Math.random() * 9 + 1) * 100000);
+
+            order.setOrderNumber(str+code);
+            order.setOrderStatus("1");
+            order.setCreateDate(date);
+            orderMapper.addOrder(order);
+            hashMap.put("code",0);
+            hashMap.put("status","订单成功录入，等待审核！");
+        }else{
+            hashMap.put("code",1);
+            hashMap.put("status","数据不能为空！");
+        }
+        return hashMap;
+    }
+
+    @Override
+    public HashMap<String, Object> updateOrderStatus(String orderNum, String status) {
+        HashMap<String, Object> hashMap = new HashMap<>();
+        if (StringUtils.isNotEmpty(orderNum) && orderNum != null){
+            Order order = orderMapper.findOrderByOrderNum(orderNum);
+            if ("1".equals(status)){
+                if ("1".equals(order.getOrderStatus())){
+                    orderMapper.updateOrderStatus(orderNum);
+                    hashMap.put("code",0);
+                    hashMap.put("status","受理成功");
+                }else{
+                    hashMap.put("code",1);
+                    hashMap.put("status","该订单已受理，请勿重复点击!");
+                }
+            }
+            if ("2".equals(status)){
+                if ("2".equals(order.getOrderStatus())){
+                    orderMapper.updateOrder(orderNum);
+                    hashMap.put("code",0);
+                    hashMap.put("status","发货成功");
+                }else{
+                    hashMap.put("code",1);
+                    hashMap.put("status","该订单已发货，请勿重复点击!");
+                }
+            }
+        }
+        return hashMap;
+    }
+
+    @Override
+    public void addComment(String comment) {
+        Jedis jedis = jedisPool.getResource();
+        List<SensitiveWords> list = null;
+        if (comment != null && StringUtils.isNotEmpty(comment)){
+            String sensitiveWords = jedis.get("SensitiveWords");
+            if (StringUtils.isNotEmpty(sensitiveWords) && sensitiveWords != null){
+                list = JSON.parseArray(sensitiveWords, SensitiveWords.class);
+            }else{
+                list = orderMapper.findSensitiveWords();
+                jedis.set("SensitiveWords", JSON.toJSONString(list));
+            }
+            jedis.close();
+            for (SensitiveWords sensitiveWord : list) {
+
+                if(comment.contains(sensitiveWord.getBadword())){
+                    String star = "";
+                    for(int i = 0;i < sensitiveWord.getBadword().length();i++){
+                        star += "*";
+                    }
+
+                    comment = comment.replace(sensitiveWord.getBadword(),star);
+                }
+
+
+            }
+            CompanyComment companyComment = new CompanyComment();
+            companyComment.setCompanyCommentId(UUID.randomUUID().toString());
+            companyComment.setCompanyComment(comment);
+            orderMapper.addComment(companyComment);
+        }
+        jedis.close();
+    }
 
     @Override
     public Order findOrderByOrderNum(String num) {

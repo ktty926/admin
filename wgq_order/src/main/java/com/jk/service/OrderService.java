@@ -16,4 +16,10 @@ public interface OrderService {
     List<AreaBean> findArea(Integer pid);
 
     Order findOrderByOrderNum(String num);
+
+    void addComment(String comment);
+
+    HashMap<String, Object> updateOrderStatus(String orderNum, String status);
+
+    HashMap<String, Object> addOrder(Order order);
 }

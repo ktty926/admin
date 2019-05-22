@@ -20,9 +20,27 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
 
-    @RequestMapping("findOrderByOrderNum")
+    @RequestMapping("addOrder")
     @ResponseBody
-    public Order findOrderByOrderNum(String num){
+    public HashMap<String, Object> addOrder(Order order){
+        return orderService.addOrder(order);
+    }
+
+    @RequestMapping("updateOrderStatus")
+    @ResponseBody
+    public HashMap<String, Object> updateOrderStatus(String orderNum, String status){
+        return orderService.updateOrderStatus(orderNum, status);
+    }
+
+    @RequestMapping("addComment")
+    @ResponseBody
+    public void addComment(String comment){
+        orderService.addComment(comment);
+    }
+
+    @RequestMapping("findOrderByOrderNu")
+    @ResponseBody
+    public Order findOrderByOrderNu(String num){
         return orderService.findOrderByOrderNum(num);
     }
 
